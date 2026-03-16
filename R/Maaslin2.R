@@ -879,8 +879,8 @@ Maaslin2 <-
         # Filter data based on variance #
         #################################
         
-        sds <- apply(filtered_data, 2, sd)
-        variance_filtered_data <- filtered_data[, which(sds > min_variance), drop = FALSE]
+        vars <- apply(filtered_data, 2, var)
+        variance_filtered_data <- filtered_data[, which(vars > min_variance), drop = FALSE]
         variance_filtered_features <- ncol(filtered_data) - ncol(variance_filtered_data)
         logging::loginfo("Total filtered features with variance filtering: %d", variance_filtered_features)
         variance_filtered_feature_names <- setdiff(names(filtered_data), names(variance_filtered_data))
@@ -950,7 +950,7 @@ Maaslin2 <-
                 fit_data$results,
                 1,
                 FUN = function(x)
-                    length(which(filtered_data_norm[, x[1]] > 0))
+                    length(which(filtered_data[, x[1]] > 0))
             )
         
         ################################
